@@ -40,22 +40,6 @@ public class BasicsActivity extends Activity {
         WorkManager.getInstance().enqueue(compressionWork);
     }
 
-    public void getStatusById(UUID uuid) {
-        LiveData<WorkStatus> statusLiveData = WorkManager.getInstance().getStatusById(uuid);
-        statusLiveData.observe(new LifecycleOwner() {
-            @NonNull
-            @Override
-            public Lifecycle getLifecycle() {
-                return null;
-            }
-        }, new Observer<WorkStatus>() {
-            @Override
-            public void onChanged(@Nullable WorkStatus workStatus) {
-
-            }
-        });
-    }
-
     public void onConstraintsClick(View view) {
         addConstraints();
     }

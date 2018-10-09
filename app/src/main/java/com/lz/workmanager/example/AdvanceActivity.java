@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,13 +23,7 @@ import static com.lz.workmanager.example.MathWorker.KEY_X_ARG;
 import static com.lz.workmanager.example.MathWorker.KEY_Y_ARG;
 import static com.lz.workmanager.example.MathWorker.KEY_Z_ARG;
 
-public class AdvanceActivity extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_advance);
-    }
+public class AdvanceActivity extends Activity implements LifecycleOwner {
 
     public void onChainedTasksClick1(View view) {
         OneTimeWorkRequest workA = new OneTimeWorkRequest.Builder(WorkA.class).build();
@@ -108,26 +103,45 @@ public class AdvanceActivity extends Activity {
                 .build();
         WorkManager.getInstance().enqueue(mathWork);
         //获取任务执行结果
-        WorkManager.getInstance().getStatusById(mathWork.getId())
-                .observe(new LifecycleOwner() {
-                    @NonNull
-                    @Override
-                    public Lifecycle getLifecycle() {
-                        return new LifecycleRegistry(this);
-                    }
-                }, new Observer<WorkStatus>() {
+        LiveData<WorkStatus> statusById = WorkManager.getInstance().getStatusById(mathWork.getId());
+        statusById
+                .observe(this, new Observer<WorkStatus>() {
                     @Override
                     public void onChanged(@Nullable WorkStatus workStatus) {
-                        if (workStatus != null && workStatus.getState().isFinished()) {
+                        if (workStatus == null) return;
+                        Log.e("workmanager", "status:" + workStatus.getState().toString());
+                        if (workStatus.getState().isFinished()) {
                             //获取结果
                             int myResult = workStatus.getOutputData().getInt(KEY_RESULT, 0);
-                            Log.e("workmanager", String.valueOf(myResult));
+                            Log.e("workmanager", "result:" + String.valueOf(myResult));
                             // ... do something with the result ...
                         }
 
                     }
                 });
 
+    }
+
+    private LifecycleRegistry mLifecycleRegistry;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_advance);
+        mLifecycleRegistry = new LifecycleRegistry(this);
+        mLifecycleRegistry.markState(Lifecycle.State.CREATED);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mLifecycleRegistry.markState(Lifecycle.State.STARTED);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return mLifecycleRegistry;
     }
 
 }

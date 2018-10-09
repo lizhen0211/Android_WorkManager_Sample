@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
 import androidx.work.WorkManager;
@@ -74,19 +75,6 @@ public class AdvanceActivity extends Activity implements LifecycleOwner {
         chain3.enqueue();
     }
 
-    /**
-     * Unique work sequences
-     * <p>
-     * You can create a unique work sequence, by beginning the sequence with a call to beginUniqueWork() instead of beginWith(). Each unique work sequence has a name; the WorkManager only permits one work sequence with that name at a time. When you create a new unique work sequence, you specify what WorkManager should do if there's already an unfinished sequence with the same name:
-     * <p>
-     * Cancel the existing sequence and replace it with the new one
-     * Keep the existing sequence and ignore your new request
-     * Append your new sequence to the existing one, running the new sequence's first task after the existing sequence's last task finishes
-     * <p>
-     * Unique work sequences can be useful if you have a task that shouldn't be enqueued multiple times. For example, if your app needs to sync its data to the network, you might enqueue a sequence named "sync", and specify that your new task should be ignored if there's already a sequence with that name. Unique work sequences can also be useful if you need to gradually build up a long chain of tasks. For example, a photo editing app might let users undo a long chain of actions. Each of those undo operations might take a while, but they have to be performed in the correct order. In this case, the app could create an "undo" chain and append each undo operation to the chain as needed.
-     */
-
-
     public void onInputAndOutputClick(View view) {
         // Create the Data object:
         Data myData = new Data.Builder()
@@ -119,6 +107,28 @@ public class AdvanceActivity extends Activity implements LifecycleOwner {
 
                     }
                 });
+
+    }
+
+    /**
+     * Unique work sequences
+     * <p>
+     * You can create a unique work sequence, by beginning the sequence with a call to beginUniqueWork() instead of beginWith(). Each unique work sequence has a name; the WorkManager only permits one work sequence with that name at a time. When you create a new unique work sequence, you specify what WorkManager should do if there's already an unfinished sequence with the same name:
+     * <p>
+     * Cancel the existing sequence and replace it with the new one
+     * Keep the existing sequence and ignore your new request
+     * Append your new sequence to the existing one, running the new sequence's first task after the existing sequence's last task finishes
+     * <p>
+     * Unique work sequences can be useful if you have a task that shouldn't be enqueued multiple times. For example, if your app needs to sync its data to the network, you might enqueue a sequence named "sync", and specify that your new task should be ignored if there's already a sequence with that name. Unique work sequences can also be useful if you need to gradually build up a long chain of tasks. For example, a photo editing app might let users undo a long chain of actions. Each of those undo operations might take a while, but they have to be performed in the correct order. In this case, the app could create an "undo" chain and append each undo operation to the chain as needed.
+     * <p>
+     * 同一时间内队列里不能存在相同名称的任务
+     */
+    public void onBeginUniqueWorkClick(View view) {
+        OneTimeWorkRequest workA = new OneTimeWorkRequest.Builder(WorkA.class).build();
+        OneTimeWorkRequest workB = new OneTimeWorkRequest.Builder(WorkB.class).build();
+        OneTimeWorkRequest workC = new OneTimeWorkRequest.Builder(WorkC.class).build();
+        WorkManager.getInstance().beginUniqueWork("tag", ExistingWorkPolicy.REPLACE, workA, workB, workC)
+                .enqueue();
 
     }
 

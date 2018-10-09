@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Constraints;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -55,8 +56,22 @@ public class BasicsActivity extends Activity {
         // Many other constraints are available, see the
         // Constraints.Builder reference
         Constraints myConstraints = builder.build();
-        myConstraints.setRequiresBatteryNotLow(false);
-        myConstraints.setRequiresCharging(false);
+
+        /*myConstraints.requiresBatteryNotLow();//执行任务时电池电量不能偏低。
+        myConstraints.requiresCharging();//在设备充电时才能执行任务。
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            myConstraints.requiresDeviceIdle();//设备空闲时才能执行。
+        }
+        myConstraints.requiresStorageNotLow();//设备储存空间足够时才能执行。*/
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            myConstraints.setRequiresDeviceIdle(true);//指定设备在充电时是否启动任务
+        }
+        myConstraints.setRequiredNetworkType(NetworkType.NOT_ROAMING);//指定任务执行时的网络状态
+        myConstraints.setRequiresBatteryNotLow(true);//指定设备电池电量低于阀值时是否启动任务，默认false
+        myConstraints.setRequiresCharging(true);//指定设备在充电时是否启动任务
+        myConstraints.setRequiresStorageNotLow(true);//指明设备储存空间低于阀值时是否启动任务
+
         // ...then create a OneTimeWorkRequest that uses those constraints
         OneTimeWorkRequest compressionWork =
                 new OneTimeWorkRequest.Builder(CompressWorker.class)
@@ -69,15 +84,22 @@ public class BasicsActivity extends Activity {
     public void cancelWork(WorkRequest workRequest) {
         //您可以在排队后取消任务。要取消该任务，您需要其工作ID，
         //您可以从该WorkRequest对象获取该工作ID
+
+        //取消唯一任务
         UUID compressionWorkId = workRequest.getId();
         WorkManager.getInstance().cancelWorkById(compressionWorkId);
+        //取消一组带有相同标签的任务
+        WorkManager.getInstance().cancelAllWorkByTag("");
+        //取消所有任务
+        WorkManager.getInstance().cancelAllWork();
+
         //WorkManager尽最大努力取消任务，但这本质上是不确定的 - 当您尝试取消任务时，任务可能已经在运行或已完成。
         //WorkManager还提供了在尽力而为的基础上取消 独特工作序列中的所有任务或具有指定标记的所有任务的方法。
     }
 
-    //标记的工作
+    //给任务加标签分组
     public void markWork() {
-        //您可以通过为任何WorkRequest对象分配标记字符串来逻辑地对任务进行分组 。
+        //您可以通过为任何WorkRequest对象分配标记字符串来逻辑地对任务进行 分组 。
         //要设置标记，请调用 WorkRequest.Builder.addTag()
         OneTimeWorkRequest cacheCleanupTask =
                 new OneTimeWorkRequest.Builder(MyCacheCleanupWorker.class)

@@ -39,6 +39,8 @@ public class MathWorker extends Worker {
                 .putInt(KEY_RESULT, result)
                 .build();
         setOutputData(output);
+        //RETRY 遇到暂时性失败，
+        // 此时可使用WorkRequest.Builder.setBackoffCriteria(BackoffPolicy, long, TimeUnit)来重试
         return Result.SUCCESS;
     }
 

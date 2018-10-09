@@ -50,5 +50,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/workContinuationBtn" />
 
+    <Button
+        android:id="@+id/beginUniqueWorkBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:onClick="onBeginUniqueWorkClick"
+        android:text="beginUniqueWork"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputAndOutputBtn" />
 
 </android.support.constraint.ConstraintLayout>

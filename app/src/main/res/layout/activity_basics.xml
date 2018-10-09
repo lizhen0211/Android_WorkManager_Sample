@@ -4,29 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".BasicsActivity">
 
     <Button
-        android:id="@+id/base_btn"
+        android:id="@+id/one_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:onClick="onBaseBtnClick"
-        android:text="基本用法"
+        android:onClick="onOneTimeWorkRequestClick"
+        android:text="OneTimeWorkRequest"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/advance_btn"
+        android:id="@+id/constraints_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:onClick="onAdvanceBtnClick"
-        android:text="高级用法"
+        android:onClick="onConstraintsClick"
+        android:text="RequestWithConstraints"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/base_btn" />
+        app:layout_constraintTop_toBottomOf="@id/one_btn" />
 
+    <Button
+        android:id="@+id/periodic_work_request_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:onClick="onPeriodicWorkRequestClick"
+        android:text="periodicWorkRequest"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraints_btn" />
 
 </android.support.constraint.ConstraintLayout>

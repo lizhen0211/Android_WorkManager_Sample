@@ -65,12 +65,12 @@ public class BasicsActivity extends Activity {
         myConstraints.requiresStorageNotLow();//设备储存空间足够时才能执行。*/
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            myConstraints.setRequiresDeviceIdle(true);//指定设备在充电时是否启动任务
+            myConstraints.setRequiresDeviceIdle(true);//在待机状态下执行
         }
         myConstraints.setRequiredNetworkType(NetworkType.NOT_ROAMING);//指定任务执行时的网络状态
-        myConstraints.setRequiresBatteryNotLow(true);//指定设备电池电量低于阀值时是否启动任务，默认false
-        myConstraints.setRequiresCharging(true);//指定设备在充电时是否启动任务
-        myConstraints.setRequiresStorageNotLow(true);//指明设备储存空间低于阀值时是否启动任务
+        myConstraints.setRequiresBatteryNotLow(true);//不在电量不足时执行 默认false
+        myConstraints.setRequiresCharging(true);//在充电时执行
+        myConstraints.setRequiresStorageNotLow(true);//不在存储容量不足时执行
 
         // ...then create a OneTimeWorkRequest that uses those constraints
         OneTimeWorkRequest compressionWork =

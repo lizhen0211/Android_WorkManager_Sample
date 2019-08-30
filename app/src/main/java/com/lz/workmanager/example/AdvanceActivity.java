@@ -19,10 +19,22 @@ import androidx.work.WorkContinuation;
 import androidx.work.WorkManager;
 import androidx.work.WorkStatus;
 
-import static com.lz.workmanager.example.MathWorker.KEY_RESULT;
-import static com.lz.workmanager.example.MathWorker.KEY_X_ARG;
-import static com.lz.workmanager.example.MathWorker.KEY_Y_ARG;
-import static com.lz.workmanager.example.MathWorker.KEY_Z_ARG;
+import com.lz.workmanager.example.worker.MathWorker;
+import com.lz.workmanager.example.worker.WorkA;
+import com.lz.workmanager.example.worker.WorkA1;
+import com.lz.workmanager.example.worker.WorkA2;
+import com.lz.workmanager.example.worker.WorkA3;
+import com.lz.workmanager.example.worker.WorkB;
+import com.lz.workmanager.example.worker.WorkC;
+import com.lz.workmanager.example.worker.WorkC1;
+import com.lz.workmanager.example.worker.WorkC2;
+import com.lz.workmanager.example.worker.WorkD;
+import com.lz.workmanager.example.worker.WorkE;
+
+import static com.lz.workmanager.example.worker.MathWorker.KEY_RESULT;
+import static com.lz.workmanager.example.worker.MathWorker.KEY_X_ARG;
+import static com.lz.workmanager.example.worker.MathWorker.KEY_Y_ARG;
+import static com.lz.workmanager.example.worker.MathWorker.KEY_Z_ARG;
 
 public class AdvanceActivity extends Activity implements LifecycleOwner {
 
@@ -113,13 +125,25 @@ public class AdvanceActivity extends Activity implements LifecycleOwner {
     /**
      * Unique work sequences
      * <p>
-     * You can create a unique work sequence, by beginning the sequence with a call to beginUniqueWork() instead of beginWith(). Each unique work sequence has a name; the WorkManager only permits one work sequence with that name at a time. When you create a new unique work sequence, you specify what WorkManager should do if there's already an unfinished sequence with the same name:
+     * You can create a unique work sequence,
+     * by beginning the sequence with a call to beginUniqueWork() instead of beginWith().
+     * Each unique work sequence has a name;
+     * the WorkManager only permits one work sequence with that name at a time.
+     * When you create a new unique work sequence,
+     * you specify what WorkManager should do if there's already an unfinished sequence with the same name:
      * <p>
      * Cancel the existing sequence and replace it with the new one
      * Keep the existing sequence and ignore your new request
-     * Append your new sequence to the existing one, running the new sequence's first task after the existing sequence's last task finishes
+     * Append your new sequence to the existing one,
+     * running the new sequence's first task after the existing sequence's last task finishes
      * <p>
-     * Unique work sequences can be useful if you have a task that shouldn't be enqueued multiple times. For example, if your app needs to sync its data to the network, you might enqueue a sequence named "sync", and specify that your new task should be ignored if there's already a sequence with that name. Unique work sequences can also be useful if you need to gradually build up a long chain of tasks. For example, a photo editing app might let users undo a long chain of actions. Each of those undo operations might take a while, but they have to be performed in the correct order. In this case, the app could create an "undo" chain and append each undo operation to the chain as needed.
+     * Unique work sequences can be useful if you have a task that shouldn't be enqueued multiple times.
+     * For example, if your app needs to sync its data to the network, you might enqueue a sequence named "sync",
+     * and specify that your new task should be ignored if there's already a sequence with that name.
+     * Unique work sequences can also be useful if you need to gradually build up a long chain of tasks.
+     * For example, a photo editing app might let users undo a long chain of actions.
+     * Each of those undo operations might take a while, but they have to be performed in the correct order.
+     * In this case, the app could create an "undo" chain and append each undo operation to the chain as needed.
      * <p>
      * 同一时间内队列里不能存在相同名称的任务
      */

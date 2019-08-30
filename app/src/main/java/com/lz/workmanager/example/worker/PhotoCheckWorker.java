@@ -1,4 +1,4 @@
-package com.lz.workmanager.example;
+package com.lz.workmanager.example.worker;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -6,13 +6,13 @@ import android.util.Log;
 import androidx.work.Worker;
 
 /**
- * Created by lz on 2018/10/9.
+ * Created by lz on 2018/9/30.
  */
-public class WorkC extends Worker {
+public class PhotoCheckWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e("workmanager", "WorkC");
+        Log.e("workmanager", "Check Photo");
         return Result.SUCCESS;
     }
 }

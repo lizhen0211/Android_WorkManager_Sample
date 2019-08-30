@@ -1,4 +1,4 @@
-package com.lz.workmanager.example;
+package com.lz.workmanager.example.worker;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

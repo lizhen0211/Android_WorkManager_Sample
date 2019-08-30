@@ -2,6 +2,7 @@ package com.lz.workmanager.example.worker;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import androidx.work.Data;
 import androidx.work.Worker;
@@ -33,7 +34,7 @@ public class MathWorker extends Worker {
 
         // ...do the math...
         int result = myCrazyMathFunction(x, y, z);
-
+        Log.e("workmanager", Thread.currentThread().getName() + " mathWorker");
         //...set the output, and we're done!
         Data output = new Data.Builder()
                 .putInt(KEY_RESULT, result)

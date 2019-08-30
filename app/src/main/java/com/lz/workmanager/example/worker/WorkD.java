@@ -12,7 +12,7 @@ public class WorkD extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e("workmanager", "WorkD");
+        Log.e("workmanager", Thread.currentThread().getName() + " WorkD");
         return Result.SUCCESS;
     }
 }

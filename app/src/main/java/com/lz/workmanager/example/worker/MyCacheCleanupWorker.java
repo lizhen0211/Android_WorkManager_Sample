@@ -13,7 +13,7 @@ public class MyCacheCleanupWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e("workmanager", "Cleanup MyCache");
+        Log.e("workmanager", Thread.currentThread().getName() + "Cleanup MyCache");
         return Result.SUCCESS;
     }
 }

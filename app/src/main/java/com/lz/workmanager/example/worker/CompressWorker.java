@@ -34,7 +34,7 @@ public class CompressWorker extends Worker {
     }
 
     private void myCompress() {
-        Log.e("workmanager", "compressing");
+        Log.e("workmanager", Thread.currentThread().getName() + " compressing");
     }
 }
 

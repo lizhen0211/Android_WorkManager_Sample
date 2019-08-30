@@ -12,7 +12,7 @@ public class PhotoCheckWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e("workmanager", "Check Photo");
+        Log.e("workmanager", Thread.currentThread().getName() + " Check Photo");
         return Result.SUCCESS;
     }
 }

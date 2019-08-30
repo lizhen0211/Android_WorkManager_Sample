@@ -17,8 +17,7 @@ public class WorkA extends Worker {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e("workmanager", Thread.currentThread().getName());
-        Log.e("workmanager", "WorkA");
+        Log.e("workmanager", Thread.currentThread().getName() + " WorkA");
         return Result.SUCCESS;
     }
 }

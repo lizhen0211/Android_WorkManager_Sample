@@ -12,7 +12,7 @@ public class WorkC2 extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e("workmanager", "WorkC2");
+        Log.e("workmanager", Thread.currentThread().getName() + " WorkC2");
         return Result.SUCCESS;
     }
 }
